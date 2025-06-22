@@ -6,6 +6,7 @@ Template project repository for DSCI-100
 # subscribes to a game-related newsletter, based on demographic and behavioral data.
 # The project uses two datasets: one describing players, and another describing session activity.
 
+# II. Methods & Results:
 # Load packages
 library(repr)
 library(tidyverse)
@@ -108,3 +109,16 @@ feature_difference_plot <- data |>
   labs(title = "Distribution of Features by Subscription Status", x = "", y = "Density")
 
 feature_difference_plot
+
+# III. Discussion:
+# 1. summarize what you found
+# 2. discuss whether this is what you expected to find?
+# 3. discuss what impact could such findings have?
+# 4. discuss what future questions could this lead to?
+
+1. From our analysis using logistic regression, we found that: Player engagement is a strong predictor of newsletter subscription. Players with higher played_hours, more sessions, and longer total play time were more likely to subscribe. Experience level also mattered: more experienced players (e.g., "Veteran", "Pro") showed a higher likelihood of subscription. Age and gender appeared less influential, though younger players showed slightly higher variability.
+2. Yes, this aligns with expectations: It’s intuitive that players who spend more time in the game and return frequently would be more engaged, and thus more likely to subscribe. More experienced players may feel a stronger connection to the community and be more inclined to follow news updates.
+3. The research team can focus recruitment efforts on active or highly engaged players, improving the efficiency of outreach campaigns.
+4. What content types or gameplay features lead to more engagement and subscriptions?
+   Can we predict unsubscription or dropout using time-based trends?
+

@@ -27,3 +27,12 @@ sessions_datatime <- sessions |>
     session_duration = as.numeric(difftime(end_time, start_time, units = "mins")))
 
 sessions_datatime
+
+# Aggregate session features
+session_summary <- sessions |>
+  group_by(hashedEmail) |>
+  summarise(
+    total_sessions = n(),
+    avg_session_duration = mean(session_duration, na.rm = TRUE),
+    total_play_time = sum(session_duration, na.rm = TRUE),
+    .groups = "drop")

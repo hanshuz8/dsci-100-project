@@ -36,3 +36,19 @@ session_summary <- sessions |>
     avg_session_duration = mean(session_duration, na.rm = TRUE),
     total_play_time = sum(session_duration, na.rm = TRUE),
     .groups = "drop")
+session_summary
+
+# Join with player data
+data <- players |>
+  left_join(session_summary, by = "hashedEmail") |>
+  replace_na(list(total_sessions = 0, avg_session_duration = 0, total_play_time = 0)) |>
+  select(-hashedEmail, -name) |>
+  drop_na()
+data
+
+# Convert categorical variables to factors
+data <- data |>
+  mutate(
+    subscribe = as.factor(subscribe),
+    experience = as.factor(experience),
+    gender = as.factor(gender))

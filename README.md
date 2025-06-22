@@ -77,3 +77,34 @@ test_prepped <- bake(prep_rec, new_data = test_data)
 prep_rec
 train_prepped
 test_prepped
+
+# Fit Models
+log_spec <- logistic_reg() |>
+  set_engine("glm") |>
+  set_mode("classification")
+
+log_fit <- workflow() |>
+  add_model(log_spec) |>
+  add_recipe(rec) |>
+  fit(data = train_data)
+
+log_preds <- predict(log_fit, test_data, type = "prob") |>
+  bind_cols(predict(log_fit, test_data)) |>
+  bind_cols(test_data |> select(subscribe))
+
+conf_mat(log_preds, truth = subscribe, estimate = .pred_class)
+
+log_spec
+log_fit
+log_preds
+
+# Visualize Feature Differences
+feature_difference_plot <- data |>
+  pivot_longer(c(played_hours, Age, total_sessions, avg_session_duration, total_play_time),
+               names_to = "feature", values_to = "value") |>
+  ggplot(aes(x = value, fill = subscribe)) +
+  geom_density(alpha = 0.5) +
+  facet_wrap(~feature, scales = "free") +
+  labs(title = "Distribution of Features by Subscription Status", x = "", y = "Density")
+
+feature_difference_plot

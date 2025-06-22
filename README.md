@@ -47,8 +47,33 @@ data <- players |>
 data
 
 # Convert categorical variables to factors
-data <- data |>
+data_factor <- data |>
   mutate(
     subscribe = as.factor(subscribe),
     experience = as.factor(experience),
     gender = as.factor(gender))
+data_factor
+
+# Split data into training and test sets
+set.seed(42)
+data_split <- initial_split(data_factor, prop = 0.75, strata = subscribe)
+train_data <- training(data_split)
+test_data <- testing(data_split)
+
+data_split
+train_data
+test_data 
+
+# Create recipe
+rec <- recipe(subscribe ~ ., data = train_data) |>
+  step_center(all_numeric_predictors()) |>
+  step_center(all_numeric_predictors())
+rec
+
+# Train and test
+prep_rec <- prep(rec)
+train_prepped <- bake(prep_rec, new_data = NULL)
+test_prepped <- bake(prep_rec, new_data = test_data)
+prep_rec
+train_prepped
+test_prepped
